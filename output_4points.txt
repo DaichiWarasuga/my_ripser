@@ -1,0 +1,69 @@
+point cloud format
+point cloud with 4 points in dimension 2
+value range: [1,1.41421]
+distance matrix with 4 points, using threshold at enclosing radius 1.41421
+persistence intervals in dim 0:
+edges.size() = 6
+Diameter: 1, Index: 5
+vertices_of_edge = [2,3]
+(u, v) = (2,3)
+ [0,1)
+---
+Diameter: 1, Index: 4
+vertices_of_edge = [1,3]
+(u, v) = (1,3)
+ [0,1)
+---
+Diameter: 1, Index: 1
+vertices_of_edge = [0,2]
+(u, v) = (0,3)
+ [0,1)
+---
+Diameter: 1, Index: 0
+vertices_of_edge = [0,1]
+(u, v) = (3,3)
+col2red 
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+---
+Diameter: 1.41421, Index: 3
+vertices_of_edge = [0,3]
+(u, v) = (3,3)
+---
+Diameter: 1.41421, Index: 2
+vertices_of_edge = [1,2]
+(u, v) = (3,3)
+---
+ [0, )
+Initial columns_to_reduce (after compute_dim_0_pairs):
+Total columns: 1
+  [0] Diameter: 1, Index: 0
+===========================================================
+persistence intervals in dim 1:
+===========================================================
+Processing dimension 1, column 0
+-----------------------------------------------------------
+Reduction matrix after appending column:
+Column 0:
+
+After init_coboundary_and_get_pivot:
+e = (0, 0)
+pivot = (1.41421, 1)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.41421, 1)
+working_coboundary contents:
+  (1.41421, 0)
+  (1.41421, 1)
+working_reduction_column contents:
+>>> empty
+Entry not found in pivot_column_index
+ [1,1.41421)
+Inserting pivot into pivot_column_index:
+Entry: 1, Column Index: 0
+Final reduction_matrix for column 0:
+Column 0:
+============================================================
+columns_to_reduce:
+Diameter : 1
+Index : 0
+finish

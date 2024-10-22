@@ -1,0 +1,585 @@
+point cloud format
+point cloud with 14 points in dimension 2
+value range: [0.28224,4.81133]
+distance matrix with 14 points, using threshold at enclosing radius 2.82843
+persistence intervals in dim 0:
+edges.size() = 67
+Edges (Diameter, Index):
+Diameter: 0.28224, Index: 85
+Diameter: 0.28224, Index: 15
+Diameter: 0.900615, Index: 56
+Diameter: 0.95885, Index: 65
+Diameter: 0.95885, Index: 9
+Diameter: 0.95885, Index: 54
+Diameter: 0.95885, Index: 5
+Diameter: 0.958851, Index: 2
+Diameter: 0.958851, Index: 44
+Diameter: 0.958851, Index: 20
+Diameter: 0.958851, Index: 90
+Diameter: 0.958851, Index: 35
+Diameter: 0.958851, Index: 0
+Diameter: 0.958851, Index: 77
+Diameter: 0.958851, Index: 14
+Diameter: 1.19694, Index: 86
+Diameter: 1.19694, Index: 16
+Diameter: 1.19694, Index: 73
+Diameter: 1.19694, Index: 10
+Diameter: 1.29054, Index: 55
+Diameter: 1.38192, Index: 46
+Diameter: 1.57082, Index: 61
+Diameter: 1.65276, Index: 66
+Diameter: 1.68294, Index: 64
+Diameter: 1.68294, Index: 8
+Diameter: 1.68294, Index: 4
+Diameter: 1.68294, Index: 76
+Diameter: 1.68294, Index: 53
+Diameter: 1.68294, Index: 13
+Diameter: 1.68294, Index: 43
+Diameter: 1.68294, Index: 1
+Diameter: 1.68294, Index: 89
+Diameter: 1.68294, Index: 19
+Diameter: 1.75475, Index: 67
+Diameter: 1.79385, Index: 57
+Diameter: 1.81859, Index: 87
+Diameter: 1.81859, Index: 17
+Diameter: 1.81859, Index: 74
+Diameter: 1.81859, Index: 11
+Diameter: 1.81859, Index: 62
+Diameter: 1.8186, Index: 6
+Diameter: 1.86958, Index: 72
+Diameter: 1.88449, Index: 47
+Diameter: 1.99499, Index: 18
+Diameter: 1.99499, Index: 88
+Diameter: 1.99499, Index: 12
+Diameter: 1.99499, Index: 75
+Diameter: 1.99499, Index: 63
+Diameter: 1.99499, Index: 52
+Diameter: 1.99499, Index: 3
+Diameter: 1.99499, Index: 7
+Diameter: 2.14114, Index: 45
+Diameter: 2.31623, Index: 37
+Diameter: 2.42105, Index: 51
+Diameter: 2.44513, Index: 60
+Diameter: 2.57461, Index: 79
+Diameter: 2.58323, Index: 58
+Diameter: 2.60819, Index: 78
+Diameter: 2.70302, Index: 68
+Diameter: 2.71888, Index: 22
+Diameter: 2.82843, Index: 84
+Diameter: 2.82843, Index: 71
+Diameter: 2.82843, Index: 59
+Diameter: 2.82843, Index: 48
+Diameter: 2.82843, Index: 38
+Diameter: 2.82843, Index: 29
+Diameter: 2.82843, Index: 21
+vertices_of_edge = [7,13]
+(u, v) = (7,13)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.28224)
+vertices_of_edge = [0,6]
+(u, v) = (0,6)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.28224)
+vertices_of_edge = [1,11]
+(u, v) = (1,11)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.900615)
+vertices_of_edge = [10,11]
+(u, v) = (10,11)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.95885)
+vertices_of_edge = [3,4]
+(u, v) = (3,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.95885)
+vertices_of_edge = [9,10]
+(u, v) = (9,11)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.95885)
+vertices_of_edge = [2,3]
+(u, v) = (2,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.95885)
+vertices_of_edge = [1,2]
+(u, v) = (11,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.958851)
+vertices_of_edge = [8,9]
+(u, v) = (8,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.958851)
+vertices_of_edge = [5,6]
+(u, v) = (5,6)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.958851)
+vertices_of_edge = [12,13]
+(u, v) = (12,13)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.958851)
+vertices_of_edge = [7,8]
+(u, v) = (13,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.958851)
+vertices_of_edge = [0,1]
+(u, v) = (6,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+ [0,0.958851)
+vertices_of_edge = [11,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+vertices_of_edge = [4,5]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (0, -1)
+vertices_of_edge = [8,13]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.19694, 321)
+vertices_of_edge = [1,6]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.19694, 20)
+vertices_of_edge = [7,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.19694, 359)
+vertices_of_edge = [0,5]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.19694, 30)
+vertices_of_edge = [0,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.29054, 165)
+vertices_of_edge = [1,10]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.38192, 211)
+vertices_of_edge = [6,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.57082, 181)
+vertices_of_edge = [0,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.65276, 275)
+vertices_of_edge = [9,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 219)
+vertices_of_edge = [2,4]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 9)
+vertices_of_edge = [1,3]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 3)
+vertices_of_edge = [10,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 285)
+vertices_of_edge = [8,10]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 164)
+vertices_of_edge = [3,5]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 19)
+vertices_of_edge = [7,9]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 119)
+vertices_of_edge = [0,2]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 0)
+vertices_of_edge = [11,13]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 363)
+vertices_of_edge = [4,6]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.68294, 34)
+vertices_of_edge = [1,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.75475, 276)
+vertices_of_edge = [2,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.79385, 167)
+vertices_of_edge = [9,13]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.81859, 350)
+vertices_of_edge = [2,6]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.81859, 182)
+vertices_of_edge = [8,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.81859, 360)
+vertices_of_edge = [1,5]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.81859, 31)
+vertices_of_edge = [7,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.81859, 348)
+vertices_of_edge = [0,4]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.8186, 26)
+vertices_of_edge = [6,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.86958, 281)
+vertices_of_edge = [2,10]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.88449, 212)
+vertices_of_edge = [3,6]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 33)
+vertices_of_edge = [10,13]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 362)
+vertices_of_edge = [2,5]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 32)
+vertices_of_edge = [9,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 361)
+vertices_of_edge = [8,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 349)
+vertices_of_edge = [7,10]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 338)
+vertices_of_edge = [0,3]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 23)
+vertices_of_edge = [1,4]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (1.99499, 27)
+vertices_of_edge = [0,10]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.14114, 265)
+vertices_of_edge = [1,9]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.31623, 257)
+vertices_of_edge = [6,10]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.42105, 271)
+vertices_of_edge = [5,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.44513, 185)
+vertices_of_edge = [1,13]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.57461, 353)
+vertices_of_edge = [3,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.58323, 183)
+vertices_of_edge = [0,13]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.60819, 352)
+vertices_of_edge = [2,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.70302, 277)
+vertices_of_edge = [1,7]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.71888, 308)
+vertices_of_edge = [6,13]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.82843, 358)
+vertices_of_edge = [5,12]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.82843, 280)
+vertices_of_edge = [4,11]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.82843, 184)
+vertices_of_edge = [3,10]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.82843, 213)
+vertices_of_edge = [2,9]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.82843, 258)
+vertices_of_edge = [1,8]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.82843, 315)
+vertices_of_edge = [0,7]
+(u, v) = (4,4)
+get_zero_apparent_cofacet(e, 1) = (2.82843, 307)
+ [0, )
+columns_to_reduce:
+2
+Diameter : 0.958851
+Index : 14
+Diameter : 0.958851
+Index : 77
+========================
+persistence intervals in dim 1:
+===========================================================
+Processing dimension 1, column 0
+-----------------------------------------------------------
+Reduction matrix after appending column:
+Column 0:
+
+After init_coboundary_and_get_pivot:
+e = (0, 0)
+pivot = (1.68294, 19)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.68294, 19)
+working_coboundary contents:
+  (2.82843, 179)
+  (1.99499, 17)
+  (1.99499, 18)
+  (1.8186, 16)
+  (1.68294, 34)
+  (1.68294, 19)
+working_reduction_column contents:
+Zero apparent facet found:
+e = (1.68294, 13)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.68294, 34)
+working_coboundary contents:
+  (2.82843, 179)
+  (2.58323, 178)
+  (1.99499, 17)
+  (1.99499, 13)
+  (1.99499, 15)
+  (1.99499, 18)
+  (1.99499, 33)
+  (1.8186, 16)
+  (1.81859, 14)
+  (1.68294, 34)
+working_reduction_column contents:
+  (1.68294, 13)
+Zero apparent facet found:
+e = (1.68294, 19)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.81859, 28)
+working_coboundary contents:
+  (2.82843, 179)
+  (2.82843, 184)
+  (2.58323, 178)
+  (1.99499, 17)
+  (1.99499, 27)
+  (1.99499, 13)
+  (1.99499, 15)
+  (1.99499, 18)
+  (1.99499, 29)
+  (1.99499, 33)
+  (1.8186, 16)
+  (1.8186, 26)
+  (1.81859, 14)
+  (1.81859, 28)
+working_reduction_column contents:
+  (1.68294, 19)
+  (1.68294, 13)
+ [0.958851,1.81859)
+Inserting pivot into pivot_column_index:
+Entry: 28, Column Index: 0
+===========================================================
+Processing dimension 1, column 1
+-----------------------------------------------------------
+Reduction matrix after appending column:
+Column 0:
+  (1.68294, 13)
+  (1.68294, 19)
+Column 1:
+
+After init_coboundary_and_get_pivot:
+e = (0, 0)
+pivot = (1.65276, 275)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.65276, 275)
+working_coboundary contents:
+  (2.82843, 280)
+  (2.70302, 277)
+  (1.99499, 283)
+  (1.99499, 284)
+  (1.86958, 281)
+  (1.81859, 282)
+  (1.75475, 276)
+  (1.68294, 363)
+  (1.68294, 285)
+  (1.65276, 275)
+working_reduction_column contents:
+Zero apparent facet found:
+e = (1.65276, 66)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.68294, 285)
+working_coboundary contents:
+  (2.82843, 230)
+  (2.82843, 241)
+  (2.82843, 280)
+  (2.70302, 221)
+  (2.70302, 277)
+  (2.60819, 352)
+  (2.14114, 265)
+  (1.99499, 283)
+  (1.99499, 284)
+  (1.86958, 235)
+  (1.86958, 281)
+  (1.81859, 282)
+  (1.75475, 220)
+  (1.75475, 276)
+  (1.68294, 363)
+  (1.68294, 285)
+working_reduction_column contents:
+  (1.65276, 66)
+Zero apparent facet found:
+e = (1.68294, 76)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.68294, 363)
+working_coboundary contents:
+  (2.82843, 230)
+  (2.82843, 241)
+  (2.82843, 280)
+  (2.70302, 221)
+  (2.70302, 267)
+  (2.70302, 277)
+  (2.60819, 352)
+  (2.42105, 271)
+  (2.14114, 265)
+  (2.14114, 265)
+  (1.99499, 272)
+  (1.99499, 283)
+  (1.99499, 274)
+  (1.99499, 284)
+  (1.99499, 362)
+  (1.86958, 235)
+  (1.86958, 281)
+  (1.81859, 282)
+  (1.81859, 273)
+  (1.75475, 220)
+  (1.75475, 266)
+  (1.75475, 276)
+  (1.68294, 363)
+working_reduction_column contents:
+  (1.68294, 76)
+  (1.65276, 66)
+Zero apparent facet found:
+e = (1.68294, 89)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.75475, 276)
+working_coboundary contents:
+  (2.82843, 230)
+  (2.82843, 241)
+  (2.82843, 280)
+  (2.82843, 347)
+  (2.70302, 221)
+  (2.70302, 267)
+  (2.70302, 277)
+  (2.60819, 341)
+  (2.60819, 352)
+  (2.57461, 342)
+  (2.42105, 271)
+  (2.14114, 265)
+  (2.14114, 265)
+  (1.99499, 272)
+  (1.99499, 283)
+  (1.99499, 349)
+  (1.99499, 274)
+  (1.99499, 284)
+  (1.99499, 351)
+  (1.99499, 362)
+  (1.86958, 235)
+  (1.86958, 281)
+  (1.81859, 282)
+  (1.81859, 348)
+  (1.81859, 273)
+  (1.81859, 350)
+  (1.75475, 220)
+  (1.75475, 266)
+  (1.75475, 276)
+working_reduction_column contents:
+  (1.68294, 89)
+  (1.68294, 76)
+  (1.65276, 66)
+Zero apparent facet found:
+e = (1.75475, 67)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.81859, 350)
+working_coboundary contents:
+  (2.82843, 230)
+  (2.82843, 231)
+  (2.82843, 241)
+  (2.82843, 249)
+  (2.82843, 280)
+  (2.82843, 347)
+  (2.71888, 242)
+  (2.70302, 221)
+  (2.70302, 222)
+  (2.70302, 267)
+  (2.70302, 277)
+  (2.60819, 341)
+  (2.60819, 352)
+  (2.57461, 342)
+  (2.57461, 353)
+  (2.42105, 271)
+  (2.31623, 257)
+  (2.14114, 265)
+  (2.14114, 265)
+  (1.99499, 272)
+  (1.99499, 283)
+  (1.99499, 349)
+  (1.99499, 274)
+  (1.99499, 284)
+  (1.99499, 351)
+  (1.99499, 362)
+  (1.86958, 235)
+  (1.86958, 236)
+  (1.86958, 281)
+  (1.81859, 282)
+  (1.81859, 348)
+  (1.81859, 273)
+  (1.81859, 350)
+working_reduction_column contents:
+  (1.75475, 67)
+  (1.68294, 89)
+  (1.68294, 76)
+  (1.65276, 66)
+Zero apparent facet found:
+e = (1.81859, 87)
+-----------------------------------------------
+Inside while loop:
+Current pivot: (1.81859, 330)
+working_coboundary contents:
+  (2.82843, 230)
+  (2.82843, 231)
+  (2.82843, 241)
+  (2.82843, 249)
+  (2.82843, 280)
+  (2.82843, 347)
+  (2.71888, 242)
+  (2.70302, 221)
+  (2.70302, 222)
+  (2.70302, 267)
+  (2.70302, 277)
+  (2.60819, 341)
+  (2.60819, 352)
+  (2.57461, 323)
+  (2.57461, 342)
+  (2.57461, 353)
+  (2.42105, 271)
+  (2.31623, 257)
+  (2.14114, 265)
+  (2.14114, 265)
+  (1.99499, 272)
+  (1.99499, 283)
+  (1.99499, 349)
+  (1.99499, 274)
+  (1.99499, 284)
+  (1.99499, 361)
+  (1.99499, 340)
+  (1.99499, 351)
+  (1.99499, 362)
+  (1.86958, 235)
+  (1.86958, 236)
+  (1.86958, 281)
+  (1.81859, 282)
+  (1.81859, 348)
+  (1.81859, 273)
+  (1.81859, 329)
+  (1.81859, 330)
+working_reduction_column contents:
+  (1.81859, 87)
+  (1.75475, 67)
+  (1.68294, 89)
+  (1.68294, 76)
+  (1.65276, 66)
+ [0.958851,1.81859)
+Inserting pivot into pivot_column_index:
+Entry: 330, Column Index: 1
+columns_to_reduce:
+Diameter : 0.958851
+Index : 14
+Diameter : 0.958851
+Index : 77
+finish

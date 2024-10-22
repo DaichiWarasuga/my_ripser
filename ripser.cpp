@@ -98,7 +98,7 @@ void check_overflow(index_t i) {
 
 class binomial_coeff_table {
 	std::vector<std::vector<index_t>> B;
-	
+
 
 public:
 	binomial_coeff_table(index_t n, index_t k) : B(k + 1, std::vector<index_t>(n + 1, 0)) {
@@ -190,6 +190,12 @@ struct diameter_entry_t : std::pair<value_t, entry_t> {
 	diameter_entry_t(const index_t& _index) : diameter_entry_t(0, _index, 0) {}
 };
 
+// operator<< のオーバーロード
+std::ostream& operator<<(std::ostream& os, const diameter_entry_t& entry) {
+	os << "(" << get_diameter(entry) << ", " << get_index(entry) << ")";
+	return os;
+}
+
 const entry_t& get_entry(const diameter_entry_t& p) { return p.second; }
 entry_t& get_entry(diameter_entry_t& p) { return p.second; }
 const index_t get_index(const diameter_entry_t& p) { return get_index(get_entry(p)); }
@@ -211,7 +217,8 @@ template <typename Entry> bool greater_diameter_or_smaller_index(const Entry& a,
 	return (get_diameter(a) > get_diameter(b)) ||
 	       ((get_diameter(a) == get_diameter(b)) && (get_index(a) < get_index(b)));
 }
-
+// 圧縮距離行列の定義
+// 距離行列の下三角行列または上三角行列のみを保持することで、メモリ使用量を削減している
 enum compressed_matrix_layout { LOWER_TRIANGULAR, UPPER_TRIANGULAR };
 
 template <compressed_matrix_layout Layout> struct compressed_distance_matrix {
@@ -235,7 +242,25 @@ template <compressed_matrix_layout Layout> struct compressed_distance_matrix {
 
 	value_t operator()(const index_t i, const index_t j) const;
 	size_t size() const { return rows.size(); }
+	void print_init_rows() const {
+		std::cout << "compressed_lower_distance_matrix::init_rows() called.\n";
+	}
 	void init_rows();
+
+	void print_distance_matrix() const {
+		std::cout << "Compressed Distance Matrix (" << size() << " points):\n";
+		std::cout << "i\tj\tdistance\n";
+		for (size_t i = 0; i < size(); ++i) {
+			for (size_t j = 0; j < size(); ++j) {
+				if (j < i) {
+					std::cout << i << "\t" << j << "\t" << (*this)(i, j) << "\n";
+				} else if (i == j) {
+					std::cout << i << "\t" << j << "\t" << 0.0f << "\n";
+				}
+			}
+		}
+		std::cout << "Total distances: " << distances.size() << "\n";
+	}
 };
 
 typedef compressed_distance_matrix<LOWER_TRIANGULAR> compressed_lower_distance_matrix;
@@ -300,6 +325,18 @@ struct sparse_distance_matrix {
 	}
 
 	size_t size() const { return neighbors.size(); }
+
+	// コンソールに距離行列を出力するメンバ関数
+	void print_distance_matrix() const {
+		std::cout << "Sparse Distance Matrix (" << size() << " points):\n";
+		std::cout << "Point1\tPoint2\tDistance\n";
+		for (size_t i = 0; i < neighbors.size(); ++i) {
+			for (const auto& neighbor : neighbors[i]) {
+				std::cout << i << "\t" << neighbor.first << "\t" << neighbor.second << "\n";
+			}
+		}
+		std::cout << "Total edges: " << num_edges << "\n";
+	}
 };
 
 struct euclidean_distance_matrix {
@@ -358,15 +395,22 @@ template <typename ValueType> class compressed_sparse_matrix {
 	std::vector<size_t> bounds;
 	std::vector<ValueType> entries;
 
-	typedef typename std::vector<ValueType>::iterator iterator;
-	typedef std::pair<iterator, iterator> iterator_pair;
+	// typedef typename std::vector<ValueType>::iterator iterator;
+	// typedef std::pair<iterator, iterator> iterator_pair;
+	typedef typename std::vector<ValueType>::const_iterator const_iterator;
+	typedef std::pair<const_iterator, const_iterator> iterator_pair;
 
 public:
 	size_t size() const { return bounds.size(); }
 
-	iterator_pair subrange(const index_t index) {
-		return {entries.begin() + (index == 0 ? 0 : bounds[index - 1]),
-		        entries.begin() + bounds[index]};
+	// iterator_pair subrange(const index_t index) {
+	// 	return {entries.begin() + (index == 0 ? 0 : bounds[index - 1]),
+	// 	        entries.begin() + bounds[index]};
+	// }
+
+	iterator_pair subrange(const index_t index) const {
+		return {entries.cbegin() + (index == 0 ? 0 : bounds[index - 1]),
+		        entries.cbegin() + bounds[index]};
 	}
 
 	void append_column() { bounds.push_back(entries.size()); }
@@ -376,7 +420,17 @@ public:
 		entries.push_back(e);
 		++bounds.back();
 	}
-};
+
+	void print_matrix() const {
+		for (size_t col = 0; col < size(); ++col) {
+			iterator_pair col_range = subrange(col);
+			auto col_begin = col_range.first;
+			auto col_end = col_range.second;
+			std::cout << "Column " << col << ":\n";
+			for (auto it = col_begin; it != col_end; ++it) { std::cout << "  " << *it << "\n"; }
+			}
+		}
+	};
 
 template <class Predicate>
 index_t get_max(index_t top, const index_t bottom, const Predicate pred) {
@@ -427,6 +481,8 @@ public:
 
 	index_t get_max_vertex(const index_t idx, const index_t k, const index_t n) const {
 		return get_max(n, k - 1, [&](index_t w) -> bool { return (binomial_coeff(w, k) <= idx); });
+		// [&](index_t w) -> bool { return (binomial_coeff(w, k) <= idx);
+		// wという変数を取り、binomial_coeff(w, k) が idx 以下かどうかをチェック
 	}
 
 	index_t get_edge_index(const index_t i, const index_t j) const {
@@ -440,6 +496,7 @@ public:
 		for (index_t k = dim + 1; k > 1; --k) {
 			n = get_max_vertex(idx, k, n);
 			*out++ = n;
+			// binomial_coeff(n, k) : n個の要素からk個を選ぶ方法の数
 			idx -= binomial_coeff(n, k);
 		}
 		*out = idx;
@@ -596,6 +653,7 @@ public:
 
 		std::sort(columns_to_reduce.begin(), columns_to_reduce.end(),
 		          greater_diameter_or_smaller_index<diameter_index_t>);
+		std::cout << "columns_to_reduce.size() = " << columns_to_reduce.size() << std::endl;
 #ifdef INDICATE_PROGRESS
 		std::cerr << clear_line << std::flush;
 #endif
@@ -609,13 +667,29 @@ public:
 
 		union_find dset(n);
 
+		// 昇順にソート
 		edges = get_edges();
 		std::sort(edges.rbegin(), edges.rend(),
 		          greater_diameter_or_smaller_index<diameter_index_t>);
+
+		std::cout << "edges.size() = " << edges.size() << std::endl;
+		// エッジの内容を出力
+		// std::cout << "Edges (Diameter, Index):" << std::endl;
+		// for (const auto& edge : edges) {
+		// 	std::cout << "Diameter: " << edge.first << ", Index: " << edge.second << std::endl;
+		// }
+
 		std::vector<index_t> vertices_of_edge(2);
 		for (auto e : edges) {
+			// std::cout << "Edges (Diameter, Index):" << std::endl;
+			std::cout << "Diameter: " << e.first << ", Index: " << e.second << std::endl;
+			// その単体を構成する頂点のindexをvertices_of_edge(辺の頂点)の最後尾に格納する
 			get_simplex_vertices(get_index(e), 1, n, vertices_of_edge.rbegin());
+			// vertices_of_edge[*]が属するグループの根を返す
 			index_t u = dset.find(vertices_of_edge[0]), v = dset.find(vertices_of_edge[1]);
+			std::cout << "vertices_of_edge = " << "[" << vertices_of_edge[0] << "," << vertices_of_edge[1] << "]" << std::endl;
+			std::cout << "(u, v) = " << "(" << u << "," << v << ")" << std::endl;
+			// std::cout << "get_zero_apparent_cofacet(e, 1) = " << get_zero_apparent_cofacet(e, 1) << std::endl;
 
 			if (u != v) {
 #ifdef PRINT_PERSISTENCE_PAIRS
@@ -623,8 +697,13 @@ public:
 					std::cout << " [0," << get_diameter(e) << ")" << std::endl;
 #endif
 				dset.link(u, v);
-			} else if ((dim_max > 0) && (get_index(get_zero_apparent_cofacet(e, 1)) == -1))
+			}
+			else if ((dim_max > 0) && (get_index(get_zero_apparent_cofacet(e, 1)) == -1)){
+				// get_zero_apparent_cofacet:上位の単体を持つならその単体を返す。持たないなら無効な値を返す。
+				std::cout << "col2red \n" << "get_zero_apparent_cofacet(e, 1) = " << get_zero_apparent_cofacet(e, 1)<< std::endl;
 				columns_to_reduce.push_back(e);
+			}
+			std::cout << "---" << std::endl;
 		}
 		if (dim_max > 0) std::reverse(columns_to_reduce.begin(), columns_to_reduce.end());
 
@@ -660,7 +739,7 @@ public:
 	}
 
 	template <typename Column> diameter_entry_t get_pivot(Column& column) {
-		diameter_entry_t result = pop_pivot(column);
+		diameter_entry_t result = pop_pivot(column);// pop_pivot : 優先度付きキューの最後尾の要素を取り出す
 		if (get_index(result) != -1) column.push(result);
 		return result;
 	}
@@ -716,6 +795,25 @@ public:
 		}
 	}
 
+	template <typename T, typename Container, typename Compare>
+	void print_priority_queue(std::priority_queue<T, Container, Compare> pq) {
+		if (pq.empty()) {
+			std::cout << ">>> empty\n";
+			return;
+		}
+
+		std::vector<T> elements;
+		while (!pq.empty()) {
+			elements.push_back(pq.top());
+			pq.pop();
+		}
+
+		// 逆順に表示（元の優先度を維持するため）
+		for (auto it = elements.rbegin(); it != elements.rend(); ++it) {
+			std::cout << "  " << *it << "\n";
+		}
+	}
+
 	void compute_pairs(const std::vector<diameter_index_t>& columns_to_reduce,
 	                   entry_hash_map& pivot_column_index, const index_t dim) {
 
@@ -728,13 +826,21 @@ public:
 #ifdef INDICATE_PROGRESS
 		std::chrono::steady_clock::time_point next = std::chrono::steady_clock::now() + time_step;
 #endif
+		// ↓↓↓ここからreduceの処理↓↓↓
 		for (size_t index_column_to_reduce = 0; index_column_to_reduce < columns_to_reduce.size();
 		     ++index_column_to_reduce) {
-
+			std::cout << "===========================================================\n";
+			std::cout << "Processing dimension " << dim << ", column " << index_column_to_reduce << "\n";
+			std::cout << "-----------------------------------------------------------\n";
+			// 現在の削減対象カラムを取得し、係数1で初期化
 			diameter_entry_t column_to_reduce(columns_to_reduce[index_column_to_reduce], 1);
 			value_t diameter = get_diameter(column_to_reduce);
 
 			reduction_matrix.append_column();
+			// reduction_matrix の内容を出力
+			std::cout << "Reduction matrix after appending column:\n";
+			reduction_matrix.print_matrix();
+			std::cout << "\n";
 
 			std::priority_queue<diameter_entry_t, std::vector<diameter_entry_t>,
 			                    greater_diameter_or_smaller_index_comp<diameter_entry_t>>
@@ -742,6 +848,9 @@ public:
 
 			diameter_entry_t e, pivot = init_coboundary_and_get_pivot(
 			                        column_to_reduce, working_coboundary, dim, pivot_column_index);
+			std::cout << "After init_coboundary_and_get_pivot:\n";
+			std::cout << "e = " << e << "\n";
+			std::cout << "pivot = " << pivot << "\n";
 
 			while (true) {
 #ifdef INDICATE_PROGRESS
@@ -752,6 +861,18 @@ public:
 					next = std::chrono::steady_clock::now() + time_step;
 				}
 #endif
+				std::cout << "-----------------------------------------------\n";
+				std::cout << "Inside while loop:\n";
+				std::cout << "Current pivot: " << pivot << "\n";
+
+				// working_coboundary の内容を出力
+				std::cout << "working_coboundary contents:\n";
+				print_priority_queue(working_coboundary);
+
+				// working_reduction_column の内容を出力
+				std::cout << "working_reduction_column contents:\n";
+				print_priority_queue(working_reduction_column);
+
 				if (get_index(pivot) != -1) {
 					auto pair = pivot_column_index.find(get_entry(pivot));
 					if (pair != pivot_column_index.end()) {
@@ -762,6 +883,11 @@ public:
 						                  multiplicative_inverse[get_coefficient(other_pivot)] %
 						                  modulus;
 
+						std::cout << "Pivot found in pivot_column_index:\n";
+						std::cout << "other_pivot = " << other_pivot
+						          << ", index_column_to_add = " << index_column_to_add << "\n";
+						std::cout << "Computed factor = " << factor << "\n";
+
 						add_coboundary(reduction_matrix, columns_to_reduce, index_column_to_add,
 						               factor, dim, working_reduction_column, working_coboundary);
 
@@ -769,8 +895,12 @@ public:
 					} else if (get_index(e = get_zero_apparent_facet(pivot, dim + 1)) != -1) {
 						set_coefficient(e, modulus - get_coefficient(e));
 
-						add_simplex_coboundary(e, dim, working_reduction_column, working_coboundary);
+						std::cout << "Zero apparent facet found:\n";
+						std::cout << "e = " << e << "\n";
 
+						add_simplex_coboundary(e, dim, working_reduction_column, working_coboundary);
+						std::cout << "working_coboundary after `add_simplex_coboundary`:\n";
+						print_priority_queue(working_coboundary);
 						pivot = get_pivot(working_coboundary);
 					} else {
 #ifdef PRINT_PERSISTENCE_PAIRS
@@ -783,6 +913,10 @@ public:
 						}
 #endif
 						pivot_column_index.insert({get_entry(pivot), index_column_to_reduce});
+
+						std::cout << "Inserting pivot into pivot_column_index:\n";
+						std::cout << "Entry: " << get_entry(pivot)
+						          << ", Column Index: " << index_column_to_reduce << "\n";
 
 						while (true) {
 							diameter_entry_t e = pop_pivot(working_reduction_column);
@@ -802,6 +936,9 @@ public:
 					break;
 				}
 			}
+		// reduction_matrixの内容を出力
+		std::cout << "Final reduction_matrix for column " << index_column_to_reduce << ":\n";
+		reduction_matrix.print_matrix();
 		}
 #ifdef INDICATE_PROGRESS
 		std::cerr << clear_line << std::flush;
@@ -815,11 +952,29 @@ public:
 
 		compute_dim_0_pairs(simplices, columns_to_reduce);
 
+		// 初期状態の columns_to_reduce を出力
+		std::cout << "Initial columns_to_reduce (after compute_dim_0_pairs):" << std::endl;
+		std::cout << "Total columns: " << columns_to_reduce.size() << std::endl;
+		for (size_t i = 0; i < columns_to_reduce.size(); ++i) {
+			const auto& di = columns_to_reduce[i];
+			std::cout << "  [" << i << "] Diameter: " << get_diameter(di)
+			          << ", Index: " << get_index(di) << std::endl;
+		}
+		std::cout << "===========================================================\n";
+
 		for (index_t dim = 1; dim <= dim_max; ++dim) {
 			entry_hash_map pivot_column_index;
 			pivot_column_index.reserve(columns_to_reduce.size());
+			// ↑↑↑最初は空っぽ。col2redのサイズに合わせてメモリ確保を行う↑↑↑
 
 			compute_pairs(columns_to_reduce, pivot_column_index, dim);
+			std::cout << "============================================================"
+			          << std::endl;
+			std::cout << "columns_to_reduce:" << std::endl;
+			for (const auto& di : columns_to_reduce) {
+				std::cout << "Diameter : " << get_diameter(di) << std::endl;
+				std::cout << "Index : " << get_index(di) << std::endl;
+			}
 
 			if (dim < dim_max)
 				assemble_columns_to_reduce(simplices, columns_to_reduce, pivot_column_index,
@@ -1122,16 +1277,22 @@ compressed_lower_distance_matrix read_binary(std::istream& input_stream) {
 compressed_lower_distance_matrix read_file(std::istream& input_stream, const file_format format) {
 	switch (format) {
 	case LOWER_DISTANCE_MATRIX:
+		std::cout << "lower distance matrix format" << std::endl;
 		return read_lower_distance_matrix(input_stream);
 	case UPPER_DISTANCE_MATRIX:
+		std::cout << "upper distance matrix format" << std::endl;
 		return read_upper_distance_matrix(input_stream);
 	case DISTANCE_MATRIX:
+		std::cout << "distance matrix format" << std::endl;
 		return read_distance_matrix(input_stream);
 	case POINT_CLOUD:
+		std::cout << "point cloud format" << std::endl;
 		return read_point_cloud(input_stream);
 	case DIPHA:
+		std::cout << "DIPHA format" << std::endl;
 		return read_dipha(input_stream);
 	default:
+		std::cout << "unsupported file format" << std::endl;
 		return read_binary(input_stream);
 	}
 }
@@ -1244,12 +1405,14 @@ int main(int argc, char** argv) {
 		ripser<sparse_distance_matrix>(std::move(dist), dim_max, threshold, ratio, modulus)
 		    .compute_barcodes();
 	} else if (format == POINT_CLOUD && threshold < std::numeric_limits<value_t>::max()) {
+		std::cout << "point cloud with threshold" << std::endl;
 		sparse_distance_matrix dist(read_point_cloud(filename ? file_stream : std::cin), threshold);
 		ripser<sparse_distance_matrix>(std::move(dist), dim_max, threshold, ratio, modulus)
-				.compute_barcodes();
+		    .compute_barcodes();
 	} else {
 		compressed_lower_distance_matrix dist =
 		    read_file(filename ? file_stream : std::cin, format);
+		// dist.print_distance_matrix();
 
 		value_t min = std::numeric_limits<value_t>::infinity(),
 		        max = -std::numeric_limits<value_t>::infinity(), max_finite = max;
@@ -1276,6 +1439,8 @@ int main(int argc, char** argv) {
 			std::cout << "distance matrix with " << dist.size()
 			          << " points, using threshold at enclosing radius " << enclosing_radius
 			          << std::endl;
+			// ↑↑↑ここまでは各formatによる距離行列の計算↑↑↑
+			// ↓↓↓ここからパーシステンス図の計算↓↓↓
 			ripser<compressed_lower_distance_matrix>(std::move(dist), dim_max, enclosing_radius,
 			                                         ratio, modulus)
 			    .compute_barcodes();
@@ -1288,6 +1453,7 @@ int main(int argc, char** argv) {
 			                               dim_max, threshold, ratio, modulus)
 			    .compute_barcodes();
 		}
+		std::cout << "finish" << std::endl;
 		exit(0);
 	}
 }
