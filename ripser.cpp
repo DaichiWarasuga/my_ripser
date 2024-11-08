@@ -124,7 +124,7 @@ bool is_prime(const coefficient_t n) {
 	return true;
 }
 
-std::vector<coefficient_t> multiplicative_inverse_vector(const coefficient_t m) {
+std::vector<coefficient_t> multiplicative_inverse_vector(const coefficient_t m) { // m = 2
 	std::vector<coefficient_t> inverse(m);
 	inverse[1] = 1;
 	// m = a * (m / a) + m % a
@@ -200,7 +200,7 @@ const entry_t& get_entry(const diameter_entry_t& p) { return p.second; }
 entry_t& get_entry(diameter_entry_t& p) { return p.second; }
 const index_t get_index(const diameter_entry_t& p) { return get_index(get_entry(p)); }
 const coefficient_t get_coefficient(const diameter_entry_t& p) {
-	return get_coefficient(get_entry(p));
+	return get_coefficient(get_entry(p)); //F2の場合は絶対1
 }
 const value_t& get_diameter(const diameter_entry_t& p) { return p.first; }
 void set_coefficient(diameter_entry_t& p, const coefficient_t c) {
@@ -432,6 +432,7 @@ public:
 		}
 	};
 
+// topからbottomまでの範囲の整数のうち、条件predを満たす最大のものを返す
 template <class Predicate>
 index_t get_max(index_t top, const index_t bottom, const Predicate pred) {
 	if (!pred(top)) {
@@ -450,12 +451,12 @@ index_t get_max(index_t top, const index_t bottom, const Predicate pred) {
 
 template <typename DistanceMatrix> class ripser {
 	const DistanceMatrix dist;
-	const index_t n, dim_max;
-	const value_t threshold;
-	const float ratio;
-	const coefficient_t modulus;
-	const binomial_coeff_table binomial_coeff;
-	const std::vector<coefficient_t> multiplicative_inverse;
+	const index_t n, dim_max; // n=点の数
+	const value_t threshold; // 半径rの最大値
+	const float ratio; // =1
+	const coefficient_t modulus; // 係数=2
+	const binomial_coeff_table binomial_coeff; // 二項係数
+	const std::vector<coefficient_t> multiplicative_inverse;　// [0, 1]
 	mutable std::vector<diameter_entry_t> cofacet_entries;
 	mutable std::vector<index_t> vertices;
 
@@ -477,18 +478,21 @@ public:
 	    : dist(std::move(_dist)), n(dist.size()),
 	      dim_max(std::min(_dim_max, index_t(dist.size() - 2))), threshold(_threshold),
 	      ratio(_ratio), modulus(_modulus), binomial_coeff(n, dim_max + 2),
-	      multiplicative_inverse(multiplicative_inverse_vector(_modulus)) {}
+	      multiplicative_inverse(multiplicative_inverse_vector(_modulus)) {} // 変数の初期化、pythonでいうclassのinitメソッドでやっていること
 
+	// nからk-1までの範囲の整数のうち、条件「binomial_coeff(w, k) <= idx」を満たす最大の点のインデックスを返す
 	index_t get_max_vertex(const index_t idx, const index_t k, const index_t n) const {
 		return get_max(n, k - 1, [&](index_t w) -> bool { return (binomial_coeff(w, k) <= idx); });
 		// [&](index_t w) -> bool { return (binomial_coeff(w, k) <= idx);
 		// wという変数を取り、binomial_coeff(w, k) が idx 以下かどうかをチェック
 	}
 
+	// 
 	index_t get_edge_index(const index_t i, const index_t j) const {
-		return binomial_coeff(i, 2) + j;
+		return binomial_coeff(i, 2) + j;　// i個の中から2個選ぶ組み合わせ数にjを足す
 	}
 
+	// 単体を構成する頂点を得る
 	template <typename OutputIterator>
 	OutputIterator get_simplex_vertices(index_t idx, const index_t dim, index_t n,
 	                                    OutputIterator out) const {
@@ -497,12 +501,13 @@ public:
 			n = get_max_vertex(idx, k, n);
 			*out++ = n;
 			// binomial_coeff(n, k) : n個の要素からk個を選ぶ方法の数
-			idx -= binomial_coeff(n, k);
+			idx -= binomial_coeff(n, k);　// idxからnCkを引く
 		}
 		*out = idx;
 		return out;
 	}
 
+	// 単体内の最も離れた頂点間の距離を計算する
 	value_t compute_diameter(const index_t index, const index_t dim) const {
 		value_t diam = -std::numeric_limits<value_t>::infinity();
 
@@ -516,16 +521,16 @@ public:
 		return diam;
 	}
 
-	class simplex_coboundary_enumerator;
+	class simplex_coboundary_enumerator; // 前方宣言.このクラスでsimplex_boundary_enumeratorを使うかもしれない的なことを言っている
 
 	class simplex_boundary_enumerator {
 	private:
-		index_t idx_below, idx_above, j, k;
+		index_t idx_below, idx_above, j, k; // idx_below : その単体のエッジのインデックス , idx_above : この単体が属する次元が一つ上の単体のインデックス
 		diameter_entry_t simplex;
 		index_t dim;
 		const coefficient_t modulus;
 		const binomial_coeff_table& binomial_coeff;
-		const ripser& parent;
+		const ripser& parent; // 親クラスから必要な情報を持って来れるようにしている
 
 	public:
 		simplex_boundary_enumerator(const diameter_entry_t _simplex, const index_t _dim,
@@ -538,7 +543,7 @@ public:
 		    : simplex_boundary_enumerator(-1, _dim, _parent) {}
 
 		void set_simplex(const diameter_entry_t _simplex, const index_t _dim) {
-			idx_below = get_index(_simplex);
+			idx_below = get_index(_simplex); // entryを取得
 			idx_above = 0;
 			j = parent.n - 1;
 			k = _dim;
@@ -549,6 +554,7 @@ public:
 		bool has_next() { return (k >= 0); }
 
 		diameter_entry_t next() {
+			// jからkまでの範囲の整数のうち、条件「binomial_coeff(w, k) <= idx_below」を満たす最大の点(w)のインデックスを返す
 			j = parent.get_max_vertex(idx_below, k + 1, j);
 
 			index_t face_index = idx_above - binomial_coeff(j, k + 1) + idx_below;
@@ -567,8 +573,9 @@ public:
 		}
 	};
 
+	// ある単体とそのフェイスのdiameterが等しいとき、そのフェイスを返す
 	diameter_entry_t get_zero_pivot_facet(const diameter_entry_t simplex, const index_t dim) {
-		static simplex_boundary_enumerator facets(0, *this);
+		static simplex_boundary_enumerator facets(0, *this); // *this : simplex_boundary_enumeratorインスタンスそのもの
 		facets.set_simplex(simplex, dim);
 		while (facets.has_next()) {
 			diameter_entry_t facet = facets.next();
@@ -587,6 +594,7 @@ public:
 		return diameter_entry_t(-1);
 	}
 
+	// ある単体とそのファイスのdiameterが等しい場合、そのフェイスのコフェイスが元の単体となる(idxが一致する)ような単体を返す
 	diameter_entry_t get_zero_apparent_facet(const diameter_entry_t simplex, const index_t dim) {
 		diameter_entry_t facet = get_zero_pivot_facet(simplex, dim);
 		return ((get_index(facet) != -1) &&
@@ -623,7 +631,7 @@ public:
 		simplex_coboundary_enumerator cofacets(*this);
 
 		for (diameter_index_t& simplex : simplices) {
-			cofacets.set_simplex(diameter_entry_t(simplex, 1), dim - 1);
+			cofacets.set_simplex(diameter_entry_t(simplex, 1), dim - 1);　// 引数のsimplices(単体複体？)から一個ずつcofacetsを作る
 
 			while (cofacets.has_next(false)) {
 #ifdef INDICATE_PROGRESS
@@ -637,7 +645,7 @@ public:
 				auto cofacet = cofacets.next();
 				if (get_diameter(cofacet) <= threshold) {
 					if (dim < dim_max) next_simplices.push_back({get_diameter(cofacet), get_index(cofacet)});
-					if (!is_in_zero_apparent_pair(cofacet, dim) &&
+					if (!is_in_zero_apparent_pair(cofacet, dim) && // zero_apparent_pairでなない　かつ　pivoが設定されていない
 					    (pivot_column_index.find(get_entry(cofacet)) == pivot_column_index.end()))
 						columns_to_reduce.push_back({get_diameter(cofacet), get_index(cofacet)});
 				}
@@ -658,6 +666,8 @@ public:
 		std::cerr << clear_line << std::flush;
 #endif
 	}
+
+// ================================================ここから読む=============================================
 
 	void compute_dim_0_pairs(std::vector<diameter_index_t>& edges,
 	                         std::vector<diameter_index_t>& columns_to_reduce) {
@@ -844,13 +854,13 @@ public:
 
 			std::priority_queue<diameter_entry_t, std::vector<diameter_entry_t>,
 			                    greater_diameter_or_smaller_index_comp<diameter_entry_t>>
-			    working_reduction_column, working_coboundary;
+			    working_reduction_column, working_coboundary; // 行列の向きと対応するか確認
 
 			diameter_entry_t e, pivot = init_coboundary_and_get_pivot(
 			                        column_to_reduce, working_coboundary, dim, pivot_column_index);
 			std::cout << "After init_coboundary_and_get_pivot:\n";
 			std::cout << "e = " << e << "\n";
-			std::cout << "pivot = " << pivot << "\n";
+			std::cout << "pivot = " << pivot << "\n"; // indecies[0]
 
 			while (true) {
 #ifdef INDICATE_PROGRESS
